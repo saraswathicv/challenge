@@ -1,3 +1,6 @@
+#We need to write code that will query the metadata of an instance within AWS or Azure or GCP and provide a json formatted output.
+#SThe choice of language and implementation is up to you.
+
 import requests
 import json
 
