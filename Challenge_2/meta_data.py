@@ -43,5 +43,34 @@ def isjson(myjson):
     return True
 
 
-if __name__ == "__main__":
-        get_ec2_metadata()
+#function to ftech all the values of all occurances of key in dict object
+def get_value(obj, findkey):
+    #list to hold the values for matching keys
+    resulted_values = []
+    #to find all matching keys recursively iterate through dict object
+    for key, value in obj.items():
+        #if the key is same as key to find add value to result
+        if key == findkey:
+            resulted_values.append(value)
+        #Validate if value of any key is list and traverse through the list to fetch the key and its value
+        elif isinstance(value, list):
+            for item in value:
+                #check if the value found under list in dict obj and iterative with that dic obj
+                if isinstance(item, dict):
+                    list_dicvalues = get_value(item, findkey)
+                    #iterate and append the values to final list
+                    for i in list_dicvalues:
+                        resulted_values.append(i)
+        #validate if vlue is dictionary , if so repeat the excercise
+        elif isinstance(value, dict):
+            dicvalues = get_value(value, findkey)
+            for val in dicvalues:
+                resulted_values.append(val)
+    return resulted_values
+
+
+
+if __name__ == '__main__':
+        isfound = False
+        value =get_value(get_ec2_metadata(),"Rapidops-Instance-SSM")
+        print("saras", value)
